@@ -1,24 +1,13 @@
-import sqlite3
-from sqlite3 import Error
 import plotly.graph_objects as go
 import plotly.subplots as sp
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import pyodbc
+import sqlite3
+from sqlite3 import Error
 
-def sqlConnect():
-    driver='{ODBC Driver 17 for SQL Server}'
-    server='comp5600.database.windows.net'
-    database='CensusData'
-    username='mec0086'
-    password='QuadsMarimbas22'
-    connection = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
-
-    return connection
-
-def create_connection(path):
+def sqlConnect(path):
     connection = None
     try:
         connection = sqlite3.connect(path)
@@ -345,56 +334,57 @@ def age4(connection):
     #fig.show()
     return fig
 
-def main():
-    app = dash.Dash(__name__)
-    #connection = create_connection("Age.db")
-    connection = sqlConnect()
-    #ageRecords = fetchAge(connection)
-    #eduRecords = fetchEducation(connection)
-    app.layout = html.Div([
-        html.H1("16-CAM COMP-5600 Final Project", style={'text-align': 'center'}),
 
-        dcc.Dropdown(id="map_select",
-                     options=[
-                         {"label": "Ages 18 to 29", "value": "age1"},
-                         {"label": "Ages 30 to 44", "value": "age2"},
-                         {"label": "Ages 45 to 64", "value": "age3"},
-                         {"label": "Ages 65+", "value": "age4"},
-                         {"label": "<9th Grade Attainment", "value": "edu1"},
-                         {"label": "9th to 12th Grade Attainment", "value": "edu2"},
-                         {"label": "High School Graduate Attainment", "value": "edu3"},
-                         {"label": "Current College Student Attainment", "value": "edu4"},
-                         {"label": "Associate's Degree Attainment", "value": "edu5"},
-                         {"label": "Bachelor's Degree Attainment", "value": "edu6"},
-                         {"label": "Graduate's Degree Attainment", "value": "edu7"},
-                         {"label": ">High School Attainment", "value": "edu8"},
-                         {"label": ">Bachelor's Degree Attainment", "value": "edu9"}],
-                     multi=False,
-                     value = "age1",
-                     style={'width': "40%"}),
-        html.Div(id='output_container', children=[]),
-        html.Br(),
-        dcc.Graph(id="map", figure={})
-        ])
+dash_app = dash.Dash()
+app = dash_app.server
+#connection = create_connection("Age.db")
 
-    @app.callback(
-        [Output(component_id='output_container', component_property='children'),
-         Output(component_id='map', component_property = 'figure')],
-         [Input(component_id='map_select',component_property='value')]
-         )
-    def update_Graph(selected):
-        container = "The Graph Chosen was: {}".format(selected)
+#ageRecords = fetchAge(connection)
+#eduRecords = fetchEducation(connection)
+dash_app.layout = html.Div([
+    html.H1("16-CAM COMP-5600 Final Project", style={'text-align': 'center'}),
 
-        method_name = selected
-        possibles = globals().copy()
-        possibles.update(locals())
-        method = possibles.get(method_name)
-        fig = method(connection)
+    dcc.Dropdown(id="map_select",
+                 options=[
+                     {"label": "Ages 18 to 29", "value": "age1"},
+                     {"label": "Ages 30 to 44", "value": "age2"},
+                     {"label": "Ages 45 to 64", "value": "age3"},
+                     {"label": "Ages 65+", "value": "age4"},
+                     {"label": "<9th Grade Attainment", "value": "edu1"},
+                     {"label": "9th to 12th Grade Attainment", "value": "edu2"},
+                     {"label": "High School Graduate Attainment", "value": "edu3"},
+                     {"label": "Current College Student Attainment", "value": "edu4"},
+                     {"label": "Associate's Degree Attainment", "value": "edu5"},
+                     {"label": "Bachelor's Degree Attainment", "value": "edu6"},
+                     {"label": "Graduate's Degree Attainment", "value": "edu7"},
+                     {"label": ">High School Attainment", "value": "edu8"},
+                     {"label": ">Bachelor's Degree Attainment", "value": "edu9"}],
+                 multi=False,
+                 value = "age1",
+                 style={'width': "40%"}),
+    html.Div(id='output_container', children=[]),
+    html.Br(),
+    dcc.Graph(id="map", figure={})
+    ])
+
+@dash_app.callback(
+    [Output(component_id='output_container', component_property='children'),
+     Output(component_id='map', component_property = 'figure')],
+     [Input(component_id='map_select',component_property='value')]
+     )
+def update_Graph(selected):
+    container = "The Graph Chosen was: {}".format(selected)
+    connection = sqlConnect("CensusData.db")
+    method_name = selected
+    possibles = globals().copy()
+    possibles.update(locals())
+    method = possibles.get(method_name)
+    fig = method(connection)
 
 
-        return container, fig
-    app.run_server(debug=False)
+    return container, fig
+
 
 
 if __name__ == "__main__":
-    main()
+    dash_app.run_server(host='0.0.0.0', port='80')
