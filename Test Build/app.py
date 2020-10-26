@@ -3,7 +3,7 @@ import plotly.subplots as sp
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import sqlite3
 from sqlite3 import Error
 
@@ -334,55 +334,162 @@ def age4(connection):
     #fig.show()
     return fig
 
+mapbox_access_token = "pk.eyJ1IjoicGxvdGx5bWFwYm94IiwiYSI6ImNrOWJqb2F4djBnMjEzbG50amg0dnJieG4ifQ.Zme1-Uzoi75IaFbieBDl3A"
+mapbox_style = "mapbox://styles/plotlymapbox/cjvprkf3t1kns1cqjxuxmwixz"
 
+DEFAULT_COLORSCALE = [
+    "#f2fffb",
+    "#bbffeb",
+    "#98ffe0",
+    "#79ffd6",
+    "#6df0c8",
+    "#69e7c0",
+    "#59dab2",
+    "#45d0a5",
+    "#31c194",
+    "#2bb489",
+    "#25a27b",
+    "#1e906d",
+    "#188463",
+    "#157658",
+    "#11684d",
+    "#10523e",
+]
 dash_app = dash.Dash()
 app = dash_app.server
 #connection = create_connection("Age.db")
 
 #ageRecords = fetchAge(connection)
 #eduRecords = fetchEducation(connection)
-dash_app.layout = html.Div([
-    html.H1("16-CAM COMP-5600 Final Project", style={'text-align': 'center'}),
-
-    dcc.Dropdown(id="map_select",
-                 options=[
-                     {"label": "Ages 18 to 29", "value": "age1"},
-                     {"label": "Ages 30 to 44", "value": "age2"},
-                     {"label": "Ages 45 to 64", "value": "age3"},
-                     {"label": "Ages 65+", "value": "age4"},
-                     {"label": "<9th Grade Attainment", "value": "edu1"},
-                     {"label": "9th to 12th Grade Attainment", "value": "edu2"},
-                     {"label": "High School Graduate Attainment", "value": "edu3"},
-                     {"label": "Current College Student Attainment", "value": "edu4"},
-                     {"label": "Associate's Degree Attainment", "value": "edu5"},
-                     {"label": "Bachelor's Degree Attainment", "value": "edu6"},
-                     {"label": "Graduate's Degree Attainment", "value": "edu7"},
-                     {"label": ">High School Attainment", "value": "edu8"},
-                     {"label": ">Bachelor's Degree Attainment", "value": "edu9"}],
-                 multi=False,
-                 value = "age1",
-                 style={'width': "40%"}),
-    html.Div(id='output_container', children=[]),
-    html.Br(),
-    dcc.Graph(id="map", figure={})
-    ])
+dash_app.layout = html.Div(
+    id = "root",
+    children =[
+        html.Div(
+            id = "header",
+            children = [
+            html.H4(children="16-CAM Final Project"),
+            html.P(
+                id = "description",
+                children="A Clustered View of US Voter Demographics",
+            ),
+            ],
+        ),
+        
+        html.Div(
+            id = "app-container",
+            children=[
+                html.Div(
+                    id = "left-column",
+                    children=[
+                        html.P(
+                            id = "dropdown-text",
+                            children="Choose a demographic from the dropdown",
+                        ),
+                        dcc.Dropdown(id="map_select",
+                            options=[
+                            {"label": "Ages 18 to 29", "value": "age1"},
+                            {"label": "Ages 30 to 44", "value": "age2"},
+                            {"label": "Ages 45 to 64", "value": "age3"},
+                            {"label": "Ages 65+", "value": "age4"},
+                            {"label": "<9th Grade Attainment", "value": "edu1"},
+                            {"label": "9th to 12th Grade Attainment", "value": "edu2"},
+                            {"label": "High School Graduate Attainment", "value": "edu3"},
+                            {"label": "Current College Student Attainment", "value": "edu4"},
+                            {"label": "Associate's Degree Attainment", "value": "edu5"},
+                            {"label": "Bachelor's Degree Attainment", "value": "edu6"},
+                            {"label": "Graduate's Degree Attainment", "value": "edu7"},
+                            {"label": ">High School Attainment", "value": "edu8"},
+                            {"label": ">Bachelor's Degree Attainment", "value": "edu9"}],
+                            multi=False,
+                            value = "age1",
+                            style={"color": "#7fafdf"}),
+                    ],
+                ),
+                html.Div(
+                    id="heatmap-container",
+                    children=[
+                        dcc.Graph(
+                            id="usa-choropleth",
+                            figure=dict(
+                                layout=dict(
+                                    mapbox=dict(
+                                        layers=[],
+                                        accesstoken=mapbox_access_token,
+                                        style=mapbox_style,
+                                        center=dict(
+                                            lat=38.72490, lon=-95.61446
+                                        ),
+                                        pitch=0,
+                                        zoom=3.5,
+                                    ),
+                                    autosize=True,
+                                )
+                            )
+                        ),
+                    ],
+                ),
+            ],
+        ),
+        html.Div(
+            id="cluster-container",
+            children=[
+            html.P(id="cluster-label", children="Select Data on Right"),
+            dcc.Graph(
+                id="cluster-graph",
+                figure=dict(
+                    data=[dict(x=0,y=0)],
+                    layout=dict(
+                        paper_bgcolor="#F4F4F8",
+                        plot_bgcolor="#F4F4F8",
+                        autofill=True,
+                        margin=dict(t=75, r=50, b=100, l=50),
+                        ),
+                    ),
+            ),
+            ],
+        ),
+    ],
+)
 
 @dash_app.callback(
-    [Output(component_id='output_container', component_property='children'),
-     Output(component_id='map', component_property = 'figure')],
-     [Input(component_id='map_select',component_property='value')]
-     )
-def update_Graph(selected):
-    container = "The Graph Chosen was: {}".format(selected)
+    Output("usa-choropleth", "figure"),
+    [Input(component_id='map_select',component_property='value')],
+    [State("usa-chorpleth","figure")]
+)
+
+def update_Graph(selected,figure):
     connection = sqlConnect("CensusData.db")
+    annotations = [
+        dict(
+            showarrow=False,
+            align="right",
+            text="<b>Voting Percentage</b>",
+            font=dict(color="#2cfec1"),
+            bgcolor="#1f2630",
+            x=0.95,
+            y=0.95,
+        )
+    ]
+    layout = dict(
+        mapbox=dict(
+            layers=[],
+            accesstoken=mapbox_access_token,
+            style=mapbox_style,
+            zoom=3.5,
+        ),
+        hovermode="closest",
+        margin=dict(r=0, l=0, t=0, b=0),
+        annotations=annotations,
+        dragmode="box",
+    )
     method_name = selected
     possibles = globals().copy()
     possibles.update(locals())
     method = possibles.get(method_name)
     fig = method(connection)
+    fig.layout = layout
 
-
-    return container, fig
+    return fig
 
 
 
