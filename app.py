@@ -3,15 +3,12 @@ import plotly.graph_objects as go
 import plotly.subplots as sp
 import plotly.express as px
 import dash
-import dash_bio as dashbio
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import sqlite3
 from sqlite3 import Error
 import pyodbc
-from sklearn.cluster import KMeans
-import numpy
 
 #Globals
 mapbox_access_token = "pk.eyJ1IjoicGxvdGx5bWFwYm94IiwiYSI6ImNrOWJqb2F4djBnMjEzbG50amg0dnJieG4ifQ.Zme1-Uzoi75IaFbieBDl3A"
