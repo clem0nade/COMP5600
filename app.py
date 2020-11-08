@@ -68,243 +68,27 @@ def fetchEducation(connection):
 
     return records
 
-def edu1(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[3]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "<9th Grade Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
+ageData = [
+    ("Ages 18 to 29", "Voter Rates of Ages 18-29"),
+    ("Ages 30 to 44", "30-44 Voter Rates by State"),
+    ("Ages 45 to 64", "45-64 Voter Rates by State"),
+    ("Ages 65+", "65+ Voter Rates by State")
+]
 
-def edu2(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[4]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "9th-12th Grade Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
+eduData = [
+    ("<9th Grade Attainment", "<9th Grade Voter Rates by State"),
+    ("9th to 12th Grade Attainment", "9th-12th Grade Voter Rates by State"),
+    ("High School Graduate Attainment", "High School Graduate Voter Rates by State"),
+    ("Current College Student Attainment", "Current College Student Voter Rates by State"),
+    ("Associate's Degree Attainment", "Associate's Degree Voter Rates by State"),
+    ("Bachelor's Degree Attainment", "Bachelors's Degree Voter Rates by State"),
+    ("Graduate's Degree Attainment", "Graduate Degree Voter Rates by State"),
+    (">High School Attainment", ">High School Attainment Voter Rates by State"),
+    (">Bachelor's Degree Attainment", ">Bachelor's Degree Attainment Voter Rates by State")   
+]
 
-def edu3(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[5]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "High School Graduate Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def edu4(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[6]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "Current College Student Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def edu5(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[7]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "Associate's Degree Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def edu6(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[8]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "Bachelors's Degree Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def edu7(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[9]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "Graduate Degree Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def edu8(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[10]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = ">High School Attainment Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def edu9(connection):
-    records = fetchEducation(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[11]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = 'Reds',
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = ">Bachelor's Degree Attainment Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-
-
-def age1(connection):
+def genAgeMap(index):
+    connection = sqlConnect('CensusData.db')
     records = fetchAge(connection)
     names = [0] * 51
     rates = [0] * 51
@@ -313,29 +97,29 @@ def age1(connection):
     for row in records:
         codes[i] = row[0]
         names[i] = row[1]
-        rates[i] = row[3]/row[2]
+        rates[i] = row[index+3]/row[2]
         i += 1
-
-    data = go.Choropleth(
+    fig = go.Figure(data=go.Choropleth(
         locations = codes,
         z = rates,
         locationmode = 'USA-states',
         colorscale = px.colors.sequential.Viridis,
-        colorbar_title = "Voting Percentage",)
-
-    layout = go.Layout(
-        title="Voter Rates of Ages 18-29",
-        font=dict(color="#2cfec1"),
+        colorbar_title = "Voting Percentage",
+    ))
+    fig.update_layout(
+        title_text = ageData[index][1],
         geo_scope = 'usa',
         geo_bgcolor = "#1f2630",
         paper_bgcolor = "#1f2630",
-        autosize = True,)
+        font_color='#2cfec1',
+        autosize = True,
+    )
     #fig.show()
-    #return fig
-    return go.Figure(data = data, layout = layout)
+    return fig
 
-def age2(connection):
-    records = fetchAge(connection)
+def genEduMap(index):
+    connection = sqlConnect('CensusData.db')
+    records = fetchEducation(connection)
     names = [0] * 51
     rates = [0] * 51
     codes = [0] * 51
@@ -343,76 +127,23 @@ def age2(connection):
     for row in records:
         codes[i] = row[0]
         names[i] = row[1]
-        rates[i] = row[4]/row[2]
+        rates[i] = row[index+3]/row[2]
         i += 1
     fig = go.Figure(data=go.Choropleth(
         locations = codes,
         z = rates,
         locationmode = 'USA-states',
-        colorscale = px.colors.sequential.Viridis,
+        colorscale = 'Reds',
         colorbar_title = "Voting Percentage",))
     fig.update_layout(
-        title_text = "30-44 Voter Rates by State",
+        title_text = eduData[index][1],
         geo_scope = 'usa',
         geo_bgcolor = "#1f2630",
         paper_bgcolor = "#1f2630",
+        font_color='#2cfec1',
         autosize = True,)
     #fig.show()
     return fig
-
-def age3(connection):
-    records = fetchAge(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[5]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = px.colors.sequential.Viridis,
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "45-64 Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-def age4(connection):
-    records = fetchAge(connection)
-    names = [0] * 51
-    rates = [0] * 51
-    codes = [0] * 51
-    i = 0
-    for row in records:
-        codes[i] = row[0]
-        names[i] = row[1]
-        rates[i] = row[6]/row[2]
-        i += 1
-    fig = go.Figure(data=go.Choropleth(
-        locations = codes,
-        z = rates,
-        locationmode = 'USA-states',
-        colorscale = px.colors.sequential.Viridis,
-        colorbar_title = "Voting Percentage",))
-    fig.update_layout(
-        title_text = "65+ Voter Rates by State",
-        geo_scope = 'usa',
-        geo_bgcolor = "#1f2630",
-        paper_bgcolor = "#1f2630",
-        autosize = True,)
-    #fig.show()
-    return fig
-
-
 
 DEFAULT_COLORSCALE = [
     "#f2fffb","#bbffeb","#98ffe0","#79ffd6","#6df0c8",
@@ -425,6 +156,11 @@ app = dash_app.server
 
 #ageRecords = fetchAge(connection)
 #eduRecords = fetchEducation(connection)
+
+optionsToSet = []
+optionsToSet += [{"label": ageData[i][0], "value": f'genAgeMap{i}'} for i in range(len(ageData))]
+optionsToSet += [{"label": eduData[i][0], "value": f'genEduMap{i}'} for i in range(len(eduData))]
+
 dash_app.layout = html.Div(
     id = "root",
     style= {'backgroundColor' : '#1f2630'},
@@ -455,22 +191,9 @@ dash_app.layout = html.Div(
                             style = {'color': "#2cfec1"},
                         ),
                         dcc.Dropdown(id="map_select",
-                            options=[
-                            {"label": "Ages 18 to 29", "value": "age1"},
-                            {"label": "Ages 30 to 44", "value": "age2"},
-                            {"label": "Ages 45 to 64", "value": "age3"},
-                            {"label": "Ages 65+", "value": "age4"},
-                            {"label": "<9th Grade Attainment", "value": "edu1"},
-                            {"label": "9th to 12th Grade Attainment", "value": "edu2"},
-                            {"label": "High School Graduate Attainment", "value": "edu3"},
-                            {"label": "Current College Student Attainment", "value": "edu4"},
-                            {"label": "Associate's Degree Attainment", "value": "edu5"},
-                            {"label": "Bachelor's Degree Attainment", "value": "edu6"},
-                            {"label": "Graduate's Degree Attainment", "value": "edu7"},
-                            {"label": ">High School Attainment", "value": "edu8"},
-                            {"label": ">Bachelor's Degree Attainment", "value": "edu9"}],
+                            options=optionsToSet,
                             multi=False,
-                            value = "age1",
+                            value='genAgeMap0',
                             style={"backgroundColor": '#1f2630','width':'75%','color': "#2cfec1"},
                             ),
                     ],
@@ -517,12 +240,12 @@ dash_app.layout = html.Div(
 )
 
 def update_Graph(selected, figure):
-    connection = sqlConnect("CensusData.db")
-    method_name = selected
+    index = selected[-1]
+    method_name = selected[:-1]
     possibles = globals().copy()
     possibles.update(locals())
     method = possibles.get(method_name)
-    fig = method(connection)
+    fig = method(int(index))
     return fig
 
 @dash_app.callback(
