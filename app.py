@@ -8,62 +8,17 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import sqlite3
 from sqlite3 import Error
-import pyodbc
+# import pyodbc
 
 #Globals
 mapbox_access_token = "pk.eyJ1IjoicGxvdGx5bWFwYm94IiwiYSI6ImNrOWJqb2F4djBnMjEzbG50amg0dnJieG4ifQ.Zme1-Uzoi75IaFbieBDl3A"
 mapbox_style = "mapbox://styles/plotlymapbox/cjvprkf3t1kns1cqjxuxmwixz"
 stateCodes = [
-"AK",
-"AL",
-"AR",
-"AZ",
-"CA",
-"CO",
-"CT",
-"DC",
-"DE",
-"FL",
-"GA",
-"HI",
-"IA",
-"ID",
-"IL",
-"IN",
-"KS",
-"KY",
-"LA",
-"MA",
-"MD",
-"ME",
-"MI",
-"MN",
-"MS",
-"MO",
-"MT",
-"NC",
-"NE",
-"NH",
-"NJ",
-"NM",
-"NV",
-"NY",
-"ND",
-"OH",
-"OK",
-"OR",
-"PA",
-"RI",
-"SC",
-"SD",
-"TN",
-"TX",
-"UT",
-"VT",
-"VA",
-"WA",
-"WV",
-"WI",
+"AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL",
+"GA","HI","IA","ID","IL","IN","KS","KY","LA","MA",
+"MD","ME","MI","MN","MS","MO","MT","NC","NE","NH",
+"NJ","NM","NV","NY","ND","OH","OK","OR","PA","RI",
+"SC","SD","TN","TX","UT","VT","VA","WA","WV","WI",
 "WY"]
 
 def getAllAgeRates(connection, namesIn):
@@ -460,24 +415,11 @@ def age4(connection):
 
 
 DEFAULT_COLORSCALE = [
-    "#f2fffb",
-    "#bbffeb",
-    "#98ffe0",
-    "#79ffd6",
-    "#6df0c8",
-    "#69e7c0",
-    "#59dab2",
-    "#45d0a5",
-    "#31c194",
-    "#2bb489",
-    "#25a27b",
-    "#1e906d",
-    "#188463",
-    "#157658",
-    "#11684d",
-    "#10523e",
+    "#f2fffb","#bbffeb","#98ffe0","#79ffd6","#6df0c8",
+    "#69e7c0","#59dab2","#45d0a5","#31c194","#2bb489",
+    "#1e906d","#188463","#157658","#11684d","#10523e",
 ]
-dash_app = dash.Dash(__name__)
+dash_app = dash.Dash(__name__, external_stylesheets=['/static/css/reset.css'])
 app = dash_app.server
 #connection = create_connection("Age.db")
 
@@ -649,4 +591,4 @@ def displaySelectedData(selectedData, selectedGraph, figure):
 
 
 if __name__ == "__main__":
-    dash_app.run_server (host='0.0.0.0', port='80')
+    dash_app.run_server (host='0.0.0.0', port='1000', debug=True)
