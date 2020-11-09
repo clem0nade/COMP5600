@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/macos,python,flask
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,flask
+# Created by https://www.toptal.com/developers/gitignore/api/macos,python,flask,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,flask,visualstudiocode
 
 ### Flask ###
 instance/*
@@ -236,4 +236,17 @@ Temporary Items
 
 # profiling data
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,python,flask
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/macos,python,flask,visualstudiocode
