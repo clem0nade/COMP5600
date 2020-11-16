@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>16-CAM</title>
+{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col">
+                <h1>16-CAM FINAL</h1>
+            </div>
+            <div class="w-100"></div>
+            <br/>
+            <br/>
+            <br/>
+            <div class="col">
+                <h4><u>Voter Information</u></h4>
+            </div>
+        </div>
+        <br/>
+        <div class="row justify-content-center">
+            <div class="col-6 border border-dark rounded">
+                <br/>
+                <form action="/" method="POST">
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label for="Name">Name</label>
+                            <input type="text" class="form-control" name="name" id="Name" placeholder="Eg. John Smith" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label for="Age">Age</label>
+                            <input type="number" class="form-control" name="age" id="Age" min="10" max="100" placeholder="Eg. 27" required>
+                        </div>
+                        <div class="col form-group">
+                            <label for="Gender">Gender</label>
+                            <select class="form-control" name="gender" id="Gender" required>
+                                <option value="" selected disabled>Select</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Robot</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label for="Degree">Highest Degree Obtained</label>
+                            <select class="form-control" name="degree" id="Degree" required>
+                                <option value="" selected disabled>Select</option>
+                                <option>No Degree</option>
+                                <option>High School</option>
+                                <option>Bachelor's</option>
+                                <option>Master's</option>
+                                <option>PhD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col text-center">
+                            <button type="submit" class="btn btn-outline-light"><i class="fas fa-sync-alt"></i> Process</button>
+                        </div>
+                    </div>
+                </form>
+                <br/>
+            </div>
+        </div>
+    </div>
+{% endblock %}
