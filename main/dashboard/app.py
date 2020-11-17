@@ -27,7 +27,7 @@ def init_dashboard(server):
     dash_app = dash.Dash(
         __name__,
         server=server,
-        routes_pathname_prefix='/dash/',
+        routes_pathname_prefix='/cluster/',
         external_scripts=external_scripts
     )
 

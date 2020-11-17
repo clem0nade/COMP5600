@@ -12,6 +12,6 @@ def index():
 
         # After processing, take users to the dash app
         # This route is defined directly in Dash's initialization
-        return redirect("/dash")
+        return redirect("/cluster")
     else:
         return render_template('index.html')
