@@ -8,6 +8,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output, State
 from .vars import *
 from . import db
+from flask import current_app
 # import pyodbc
 
 
@@ -24,6 +25,9 @@ def init_dashboard(server):
     # Initializing layout after app is loaded
     dash_app.title = "16-CAM"
     init_layout(dash_app)
+    with current_app.app_context():
+        # Global var for setting graph category. Default is age.
+        current_app.categorySelected = "generateAgeMap"
 
     # Initializing callbacks after app is loaded
     init_callbacks(dash_app)
@@ -136,6 +140,8 @@ def init_callbacks(dash_app):
     def update_Graph(selected, figure):
         index = selected[-1]
         method_name = selected[:-1]
+        with current_app.app_context():
+            current_app.categorySelected = method_name
         possibles = globals().copy()
         possibles.update(locals())
         method = possibles.get(method_name)
@@ -169,7 +175,7 @@ def init_callbacks(dash_app):
             name.append(point['location'])
         print(name)
         print(z)
-        if (selectedGraph == 'line'):
+        if selectedGraph == 'line':
             return dict(
                     data=[dict(x=name, y=z)],
                     layout=dict(
@@ -180,27 +186,44 @@ def init_callbacks(dash_app):
                         margin=dict(t=75, r=50, b=100, l=75),
                     ),
                 )
-        elif(selectedGraph == 'cluster'):
-            age1, age2, age3, age4 = db.getAllAgeRates(name)
-            data = {}
-            data['State'] = name
-            data['19-29'] = age1
-            data['30-44'] = age2
-            data['45-64'] = age3
-            data['65+'] = age4
-            df = pd.DataFrame(data)
-            print(df)
-            fig = px.bar(df, x = 'State', 
-                        y = ['19-29', '30-44', '45-64', '65+'], 
-                        title="Stacked Bar Chart Voter Rates of Selected States",)
-            fig.update_layout(
-                paper_bgcolor="#1f2630",
-                plot_bgcolor="#1f2630",
-                font=dict(color="#2cfec1"),
-                margin=dict(t=75, r=50, b=100, l=75),
-            )
-            return fig
-    
+        elif selectedGraph == 'cluster':
+            categorySelected = ""
+            with current_app.app_context():
+                categorySelected = current_app.categorySelected
+
+            if categorySelected == "generateAgeMap":
+                return getClusterAgeFigure(name)
+            elif categorySelected == "generateEduMap":
+                return getClusterEduFigure(name)
+            else:
+                pass
+            
+
+def getClusterAgeFigure(name):
+    age1, age2, age3, age4 = db.getAllAgeRates(name)
+    data = {}
+    data['State'] = name
+    data['19-29'] = age1
+    data['30-44'] = age2
+    data['45-64'] = age3
+    data['65+'] = age4
+    df = pd.DataFrame(data)
+    print(df)
+    fig = px.bar(df, x = 'State', 
+                y = ['19-29', '30-44', '45-64', '65+'], 
+                title="Stacked Bar Chart Voter Rates of Selected States",)
+    fig.update_layout(
+        paper_bgcolor="#1f2630",
+        plot_bgcolor="#1f2630",
+        font=dict(color="#2cfec1"),
+        margin=dict(t=75, r=50, b=100, l=75),
+    )
+    return fig
+
+def getClusterEduFigure(name):
+    # Everett, take charge
+    return None
+
 def generateAgeMap(index):
         records = db.fetchAge()
         names = [0] * 51
