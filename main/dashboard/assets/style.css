@@ -1,6 +1,7 @@
 body{
     color: #03c9a1;
     background-color: #1f2630;
+    background: transparent;
 }
 
 .btn-outline-light{
@@ -8,15 +9,14 @@ body{
     border-color: #03c9a1;
 }
 
-.rounded-square{
+#react-entry-point{
     background-color: #0e131a;
-    margin: auto;
-    display: block;
-    border-radius: 60px;
-    width: 60%;
+    margin: 50px auto 50px auto;
+    display: flex;
+    flex-direction: column;
     opacity: 0.9;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    border-radius: 60px;
+    width: 90%;
 }
 
 #particles-js canvas {
@@ -37,8 +37,4 @@ body{
     z-index: -10;
     top: 0;
     left: 0
-}
-
-.red-color{
-    color: #b83e3a;
 }

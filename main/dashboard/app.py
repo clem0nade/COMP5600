@@ -15,11 +15,20 @@ from flask import current_app
 #========================================================================================================================
 # BEGIN - Init Dashboard
 #========================================================================================================================
+external_scripts=[
+    {
+        'src': 'https://code.jquery.com/jquery-3.5.1.min.js',
+        'integrity': 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=',
+        'crossorigin': 'anonymous'
+    }
+]
+
 def init_dashboard(server):
     dash_app = dash.Dash(
         __name__,
         server=server,
-        routes_pathname_prefix='/dash/'
+        routes_pathname_prefix='/dash/',
+        external_scripts=external_scripts
     )
 
     # Initializing layout after app is loaded
@@ -52,13 +61,12 @@ def init_layout(dash_app):
 
     dash_app.layout = html.Div(
         id = "root",
-        style= {'backgroundColor' : '#1f2630'},
         children =[
             html.Div(
                 id = "header",
-                style= {'color' : '#1f2630'},
+                style= {'color' : '#1f2630', 'text-align': 'center'},
                 children = [
-                    html.H4(children="A Clustered View of US Voter Demographics", style = {'color': "#2cfec1"}),
+                    html.H4(children="A Clustered View of US Voter Demographics", style = {'color': "#03c9a1"}),
                     html.Br(),
                     html.Br(),
                     html.Br()
@@ -67,54 +75,62 @@ def init_layout(dash_app):
             
             html.Div(
                 id = "app-container",
-                style = {'color' : '#1f2630', 'width':'49%','display': 'inline-block', 'vertical-align': 'top'},
+                style = {
+                    'color' : '#1f2630',
+                    'width': '50%',
+                    'height': 'auto',
+                    'display': 'block',
+                    'float': 'left'
+                },
                 children=[
-                    html.Div(
-                        id = "left-column",
-                        children=[
-                            html.P(
-                                id = "dropdown-text",
-                                children="Choose a Demographic from the Dropdown",
-                                style = {'color': "#2cfec1"},
-                            ),
-                            dcc.Dropdown(id="map_select",
-                                options=optionsToSet,
-                                multi=False,
-                                value='generateAgeMap0',
-                                style={"backgroundColor": '#1f2630','width':'75%','color': "#2cfec1"},
-                                ),
-                        ],
+                    html.P(
+                        id = "dropdown-text",
+                        children="Choose a Demographic from the Dropdown",
+                        style = {'color': "#03c9a1", 'text-align': 'center'},
                     ),
-                    html.Div(
-                        id="heatmap-container",
-                        style= {'color' : '#1f2630'},
-                        children=[
-                            dcc.Graph(
-                                id="map",
-                                figure={}
-                            ),
-                        ],
+                    dcc.Dropdown(id="map_select",
+                        options=optionsToSet,
+                        multi=False,
+                        value='generateAgeMap0',
+                        style={"backgroundColor": '#0e131a','width':'75%','color': "#03c9a1", 'margin': 'auto'},
+                    ),
+                    html.Br(),
+                    dcc.Graph(
+                        id="map",
+                        figure={}
                     ),
                 ],
             ),
+
             html.Div(
                 id="cluster-container",
-                style= {'color' : '#1f2630','width':'49%','display': 'inline-block', 'vertical-align': 'top'},
+                style= {
+                    'color' : '#1f2630',
+                    'width':'50%',
+                    'height': 'auto',
+                    'display': 'block',
+                    'float': 'right'
+                },
                 children=[
-                html.P(id="cluster-label", children="Select Data on Right and Choose Graph Style Below", style = {'color': "#2cfec1"}),
-                dcc.Dropdown(
-                    id="graph-select",
-                    options=[
-                        {"label": "Line Graph", "value" : "line"},
-                        {"label" : "Stacked Bar Chart", "value": "cluster"}],
-                    multi=False,
-                    value = "line",
-                    style={"backgroundColor": '#1f2630','width':'75%','color': "#2cfec1"},
-                ),
-                dcc.Graph(
-                    id="cluster-graph",
-                    figure={}
-                ),
+                    html.P(
+                        id="cluster-label",
+                        children="Select Data on Right and Choose Graph Style Below",
+                        style = {'color': "#03c9a1", 'text-align': 'center'}
+                    ),
+                    dcc.Dropdown(
+                        id="graph-select",
+                        options=[
+                            {"label": "Line Graph", "value" : "line"},
+                            {"label" : "Stacked Bar Chart", "value": "cluster"}],
+                        multi=False,
+                        value = "line",
+                        style={"backgroundColor": '#0e131a','width':'75%','color': "#03c9a1", 'margin': 'auto'},
+                    ),
+                    html.Br(),
+                    dcc.Graph(
+                        id="cluster-graph",
+                        figure={}
+                    ),
                 ],
             ),
         ],
@@ -158,13 +174,11 @@ def init_callbacks(dash_app):
         print("Selected Graph is " + selectedGraph)
         if selectedData is None:
             return dict(
-                data=[dict(x=0, y=0)],
                 layout=dict(
                     title="Click-drag on the map to select states",
-                    paper_bgcolor="#1f2630",
-                    plot_bgcolor="#1f2630",
-                    font=dict(color="#2cfec1"),
-                    margin=dict(t=75, r=50, b=100, l=75),
+                    paper_bgcolor="#0e131a",
+                    plot_bgcolor="#0e131a",
+                    font=dict(color="#03c9a1"),
                 ),
             )
         data = selectedData["points"]
@@ -180,10 +194,9 @@ def init_callbacks(dash_app):
                     data=[dict(x=name, y=z)],
                     layout=dict(
                         title="Voter Rates of Selected States",
-                        paper_bgcolor="#1f2630",
-                        plot_bgcolor="#1f2630",
-                        font=dict(color="#2cfec1"),
-                        margin=dict(t=75, r=50, b=100, l=75),
+                        paper_bgcolor="#0e131a",
+                        plot_bgcolor="#0e131a",
+                        font=dict(color="#03c9a1"),
                     ),
                 )
         elif selectedGraph == 'cluster':
@@ -213,10 +226,9 @@ def getClusterAgeFigure(name):
                 y = ['19-29', '30-44', '45-64', '65+'], 
                 title="Stacked Bar Chart Voter Rates of Selected States",)
     fig.update_layout(
-        paper_bgcolor="#1f2630",
-        plot_bgcolor="#1f2630",
-        font=dict(color="#2cfec1"),
-        margin=dict(t=75, r=50, b=100, l=75),
+        paper_bgcolor="#0e131a",
+        plot_bgcolor="#0e131a",
+        font=dict(color="#03c9a1"),
     )
     return fig
 
@@ -245,10 +257,10 @@ def generateAgeMap(index):
         fig.update_layout(
             title_text = ageLabels[index][1],
             geo_scope = 'usa',
-            geo_bgcolor = "#1f2630",
-            paper_bgcolor = "#1f2630",
-            font_color='#2cfec1',
-            autosize = True,
+            geo_bgcolor = "#0e131a",
+            paper_bgcolor = "#0e131a",
+            font_color='#03c9a1',
+            autosize = True
         )
         #fig.show()
         return fig
@@ -273,10 +285,11 @@ def generateEduMap(index):
         fig.update_layout(
             title_text = eduLabels[index][1],
             geo_scope = 'usa',
-            geo_bgcolor = "#1f2630",
-            paper_bgcolor = "#1f2630",
-            font_color='#2cfec1',
-            autosize = True,)
+            geo_bgcolor = "#0e131a",
+            paper_bgcolor = "#0e131a",
+            font_color='#03c9a1',
+            autosize = True
+        )
         #fig.show()
         return fig
 #========================================================================================================================
