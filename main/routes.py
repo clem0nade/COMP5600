@@ -14,14 +14,14 @@ def index():
         degree = request.form['degree']
         # Process the above values in conjunction with voter data
         # Insert data into database
-        connection = db.sqlConnect()
-        cursor = connection.cursor()
-        query = "INSERT INTO USERS VALUES (?, ?, ?, ?)"
-        data = (str(name), str(age), str(gender), str(degree))
+        # connection = db.sqlConnect()
+        # cursor = connection.cursor()
+        # query = "INSERT INTO USERS VALUES (?, ?, ?, ?)"
+        # data = (str(name), str(age), str(gender), str(degree))
 
-        cursor.execute(query, data)
-        connection.commit()
-        cursor.close()
+        # cursor.execute(query, data)
+        # connection.commit()
+        # cursor.close()
         # After processing, take users to the dash app
         # This route is defined directly in Dash's initialization
         return redirect("/dash")
