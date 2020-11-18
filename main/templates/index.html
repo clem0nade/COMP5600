@@ -72,13 +72,54 @@
                 </div>
             </div>
             <div id="loader" style="display: none;">
-                <div class="text-center">
-                    <h6 class="red-color">Clustering voter information with database...</h6>
-                    <br/>
-                    <div class="red-color spinner-grow" role="status">
-                      <span class="sr-only">Loading...</span>
+                <div id="loadingStartText"  class="text-center red-color">
+                    <h5>Clustering voter information with database...</h5>
+                </div>
+                <br/>
+                <div class="scifi-loader">
+                    <div class="row">
+                       <div class="arrow up outer outer-18"></div>
+                       <div class="arrow down outer outer-17"></div>
+                       <div class="arrow up outer outer-16"></div>
+                       <div class="arrow down outer outer-15"></div>
+                       <div class="arrow up outer outer-14"></div>
                     </div>
-                  </div>
+                    <div class="row">
+                       <div class="arrow up outer outer-1"></div>
+                       <div class="arrow down outer outer-2"></div>
+                       <div class="arrow up inner inner-6"></div>
+                       <div class="arrow down inner inner-5"></div>
+                       <div class="arrow up inner inner-4"></div>
+                       <div class="arrow down outer outer-13"></div>
+                       <div class="arrow up outer outer-12"></div>
+                    </div>
+                    <div class="row">
+                       <div class="arrow down outer outer-3"></div>
+                       <div class="arrow up outer outer-4"></div>
+                       <div class="arrow down inner inner-1"></div>
+                       <div class="arrow up inner inner-2"></div>
+                       <div class="arrow down inner inner-3"></div>
+                       <div class="arrow up outer outer-11"></div>
+                       <div class="arrow down outer outer-10"></div>
+                    </div>
+                    <div class="row">
+                       <div class="arrow down outer outer-5"></div>
+                       <div class="arrow up outer outer-6"></div>
+                       <div class="arrow down outer outer-7"></div>
+                       <div class="arrow up outer outer-8"></div>
+                       <div class="arrow down outer outer-9"></div>
+                    </div>
+                </div>
+                <div id="loadingFinishText" class="text-center red-color" style="display: none;">
+                    <h5>Clustering completed   <i class="fas fa-check"></i> </h5>
+                    <br/>
+                    <div style="display: inline;">
+                        <h5 style="display: inline;">Loading dashboard</h5>&nbsp;&nbsp;
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </div>
+                    
+                    
+                </div>
             </div>
         </div>
     </div>

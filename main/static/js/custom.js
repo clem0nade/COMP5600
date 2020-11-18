@@ -4,11 +4,20 @@
 //});
 
 $("#process").click(function(){
+  if (!$('#voterForm')[0].checkValidity()){
+    $('#voterForm')[0].reportValidity();
+    return;
+  }
   $("#main").hide().animate({opacity: "0"}, 500);
   $("#loader").fadeIn().animate({opacity: "1"}, 500);
   setTimeout(function(){
-    $("#voterForm").submit();
-  }, 3000);
+    $("#loadingStartText").hide().animate({opacity: "0"}, 500);
+    $(".scifi-loader").hide().animate({opacity: "0"}, 500);
+    $("#loadingFinishText").fadeIn().animate({opacity: "1"}, 500);
+    setTimeout(function(){
+      $("#voterForm").submit();
+    }, 3000);
+  }, 5000);
 });
 
 particlesJS('particles-js',{
