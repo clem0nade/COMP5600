@@ -17,8 +17,6 @@ def index():
         values = (name, age, gender, degree)
         curs.execute(sql, values)
         conn.commit()
-        curs.close()
-        conn.close()
         # After processing, take users to the dash app
         # This route is defined directly in Dash's initialization
         return redirect("/cluster")
