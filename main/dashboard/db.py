@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Error
 import os.path
 
+
 def getAllAgeRates(namesIn):
     connection = sqlConnect()
     sql_Select = "select * from Age"
@@ -20,9 +21,10 @@ def getAllAgeRates(namesIn):
                 age2.append(row[4]/row[2])
                 age3.append(row[5]/row[2])
                 age4.append(row[6]/row[2])
-    
+
     cursor.close()
     return age1, age2, age3, age4
+
 
 def getAllEducation(namesIn):
     connection = sqlConnect()
@@ -52,7 +54,7 @@ def getAllEducation(namesIn):
                 edu7.append(row[9]/row[2])
                 edu8.append(row[10]/row[2])
                 edu9.append(row[11]/row[2])
-    
+
     cursor.close()
     return edu1, edu2, edu3, edu4, edu5, edu6, edu7, edu8, edu9
 
@@ -82,7 +84,7 @@ def sqlConnect():
     db_path = os.path.join(BASE_DIR, "CensusData.db")
     connection = None
     try:
-        connection = sqlite3.connect(db_path)
+        connection = sqlite3.connect(db_path, timeout=10)
         print("Connection to SQLite DB successful")
     except Error as e:
         print(f"The error '{e}' occurred")
