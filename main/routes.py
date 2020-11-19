@@ -11,6 +11,7 @@ def index():
         gender = request.form['gender']
         degree = request.form['degree']
         # Process the above values in conjunction with voter data
+
         # conn = db.sqlConnect()
         # curs = conn.cursor()
         # sql = "INSERT INTO Users Values (?, ?, ?, ?)"
