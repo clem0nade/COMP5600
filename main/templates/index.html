@@ -5,66 +5,121 @@
 {% endblock %}
 
 {% block body %}
+    <div id="particles-js"></div>
+    <br>
+    <br>
     <br>
     <div class="container">
-        <div class="row text-center">
-            <div class="col">
-                <h1>16-CAM FINAL</h1>
+        <div class="rounded-square">
+            <div id="main">
+                <div class="row text-center">
+                    <div class="col">
+                        <h1>16-CAM FINAL</h1>
+                    </div>
+                    <div class="w-100"></div>
+                    <br/>
+                    <br/>
+                    <div class="col">
+                        <h4><u>Voter Information</u></h4>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        <br/>
+                        <form id="voterForm" action="/" method="POST">
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="Name">Name</label>
+                                    <input type="text" class="form-control" name="name" id="Name" placeholder="Eg. John Smith" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group"> 
+                                    <label for="Age">Age</label>
+                                    <input type="number" class="form-control" name="age" id="Age" min="10" max="100" placeholder="Eg. 27" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="Gender">Gender</label>
+                                    <select class="form-control" name="gender" id="Gender" required>
+                                        <option value="" selected disabled>Select</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Robot</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="Degree">Highest Degree Obtained</label>
+                                    <select class="form-control" name="degree" id="Degree" required>
+                                        <option value="" selected disabled>Select</option>
+                                        <option>No Degree</option>
+                                        <option>High School</option>
+                                        <option>Bachelor's</option>
+                                        <option>Master's</option>
+                                        <option>PhD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col text-center">
+                                    <button type="button" id="process" class="btn btn-outline-light"><i class="fas fa-sync-alt"></i> Process</button>
+                                </div>
+                            </div>
+                        </form>
+                        <br/>
+                    </div>
+                </div>
             </div>
-            <div class="w-100"></div>
-            <br/>
-            <br/>
-            <br/>
-            <div class="col">
-                <h4><u>Voter Information</u></h4>
-            </div>
-        </div>
-        <br/>
-        <div class="row justify-content-center">
-            <div class="col-6 border border-dark rounded">
+            <div id="loader" style="display: none;">
+                <div id="loadingStartText"  class="text-center red-color">
+                    <h5>Clustering voter information with database...</h5>
+                </div>
                 <br/>
-                <form action="/" method="POST">
-                    <div class="form-row">
-                        <div class="col form-group">
-                            <label for="Name">Name</label>
-                            <input type="text" class="form-control" name="name" id="Name" placeholder="Eg. John Smith" required>
-                        </div>
+                <div class="scifi-loader">
+                    <div class="row">
+                       <div class="arrow up outer outer-18"></div>
+                       <div class="arrow down outer outer-17"></div>
+                       <div class="arrow up outer outer-16"></div>
+                       <div class="arrow down outer outer-15"></div>
+                       <div class="arrow up outer outer-14"></div>
                     </div>
-                    <div class="form-row">
-                        <div class="col form-group">
-                            <label for="Age">Age</label>
-                            <input type="number" class="form-control" name="age" id="Age" min="10" max="100" placeholder="Eg. 27" required>
-                        </div>
-                        <div class="col form-group">
-                            <label for="Gender">Gender</label>
-                            <select class="form-control" name="gender" id="Gender" required>
-                                <option value="" selected disabled>Select</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Robot</option>
-                            </select>
-                        </div>
+                    <div class="row">
+                       <div class="arrow up outer outer-1"></div>
+                       <div class="arrow down outer outer-2"></div>
+                       <div class="arrow up inner inner-6"></div>
+                       <div class="arrow down inner inner-5"></div>
+                       <div class="arrow up inner inner-4"></div>
+                       <div class="arrow down outer outer-13"></div>
+                       <div class="arrow up outer outer-12"></div>
                     </div>
-                    <div class="form-row">
-                        <div class="col form-group">
-                            <label for="Degree">Highest Degree Obtained</label>
-                            <select class="form-control" name="degree" id="Degree" required>
-                                <option value="" selected disabled>Select</option>
-                                <option>No Degree</option>
-                                <option>High School</option>
-                                <option>Bachelor's</option>
-                                <option>Master's</option>
-                                <option>PhD</option>
-                            </select>
-                        </div>
+                    <div class="row">
+                       <div class="arrow down outer outer-3"></div>
+                       <div class="arrow up outer outer-4"></div>
+                       <div class="arrow down inner inner-1"></div>
+                       <div class="arrow up inner inner-2"></div>
+                       <div class="arrow down inner inner-3"></div>
+                       <div class="arrow up outer outer-11"></div>
+                       <div class="arrow down outer outer-10"></div>
                     </div>
-                    <div class="form-row">
-                        <div class="col text-center">
-                            <button type="submit" class="btn btn-outline-light"><i class="fas fa-sync-alt"></i> Process</button>
-                        </div>
+                    <div class="row">
+                       <div class="arrow down outer outer-5"></div>
+                       <div class="arrow up outer outer-6"></div>
+                       <div class="arrow down outer outer-7"></div>
+                       <div class="arrow up outer outer-8"></div>
+                       <div class="arrow down outer outer-9"></div>
                     </div>
-                </form>
-                <br/>
+                </div>
+                <div id="loadingFinishText" class="text-center red-color" style="display: none;">
+                    <h5>Clustering completed   <i class="fas fa-check"></i> </h5>
+                    <br/>
+                    <div style="display: inline;">
+                        <h5 style="display: inline;">Loading dashboard</h5>&nbsp;&nbsp;
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    </div>
+                    
+                    
+                </div>
             </div>
         </div>
     </div>
