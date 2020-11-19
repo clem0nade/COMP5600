@@ -11,14 +11,14 @@ def index():
         gender = request.form['gender']
         degree = request.form['degree']
         # Process the above values in conjunction with voter data
-        conn = db.sqlConnect()
-        curs = conn.cursor()
-        sql = "INSERT INTO Users Values (?, ?, ?, ?)"
-        values = (name, age, gender, degree)
-        curs.execute(sql, values)
-        conn.commit()
-        curs.close()
-        conn.close()
+        # conn = db.sqlConnect()
+        # curs = conn.cursor()
+        # sql = "INSERT INTO Users Values (?, ?, ?, ?)"
+        # values = (name, age, gender, degree)
+        # curs.execute(sql, values)
+        # conn.commit()
+        # curs.close()
+        # conn.close()
         # After processing, take users to the dash app
         # This route is defined directly in Dash's initialization
         return redirect("/cluster")
