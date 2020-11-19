@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect
 from flask import current_app as app
-from .dashboard import db
+#from .dashboard import db
 
 
 @app.route('/', methods=['POST', 'GET'])
