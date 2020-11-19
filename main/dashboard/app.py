@@ -12,16 +12,17 @@ from flask import current_app
 # import pyodbc
 
 
-#========================================================================================================================
+# ========================================================================================================================
 # BEGIN - Init Dashboard
-#========================================================================================================================
-external_scripts=[
+# ========================================================================================================================
+external_scripts = [
     {
         'src': 'https://code.jquery.com/jquery-3.5.1.min.js',
         'integrity': 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=',
         'crossorigin': 'anonymous'
     }
 ]
+
 
 def init_dashboard(server):
     dash_app = dash.Dash(
@@ -42,41 +43,41 @@ def init_dashboard(server):
     init_callbacks(dash_app)
 
     return dash_app.server
-#========================================================================================================================
+# ========================================================================================================================
 # END - Init Dashboard
-#========================================================================================================================
+# ========================================================================================================================
 
 
-
-
-
-#========================================================================================================================
+# ========================================================================================================================
 # BEGIN - Layout Functions
-#========================================================================================================================
+# ========================================================================================================================
 def init_layout(dash_app):
 
     optionsToSet = []
-    optionsToSet += [{"label": ageLabels[i][0], "value": f'generateAgeMap{i}'} for i in range(len(ageLabels))]
-    optionsToSet += [{"label": eduLabels[i][0], "value": f'generateEduMap{i}'} for i in range(len(eduLabels))]
+    optionsToSet += [{"label": ageLabels[i][0], "value": f'generateAgeMap{i}'}
+                     for i in range(len(ageLabels))]
+    optionsToSet += [{"label": eduLabels[i][0], "value": f'generateEduMap{i}'}
+                     for i in range(len(eduLabels))]
 
     dash_app.layout = html.Div(
-        id = "root",
-        children =[
+        id="root",
+        children=[
             html.Div(
-                id = "header",
-                style= {'color' : '#1f2630', 'text-align': 'center'},
-                children = [
-                    html.H4(children="A Clustered View of US Voter Demographics", style = {'color': "#03c9a1"}),
+                id="header",
+                style={'color': '#1f2630', 'text-align': 'center'},
+                children=[
+                    html.H4(children="A Clustered View of US Voter Demographics", style={
+                            'color': "#03c9a1"}),
                     html.Br(),
                     html.Br(),
                     html.Br()
                 ],
             ),
-            
+
             html.Div(
-                id = "app-container",
-                style = {
-                    'color' : '#1f2630',
+                id="app-container",
+                style={
+                    'color': '#1f2630',
                     'width': '50%',
                     'height': 'auto',
                     'display': 'block',
@@ -84,16 +85,17 @@ def init_layout(dash_app):
                 },
                 children=[
                     html.P(
-                        id = "dropdown-text",
+                        id="dropdown-text",
                         children="Choose a Demographic from the Dropdown",
-                        style = {'color': "#03c9a1", 'text-align': 'center'},
+                        style={'color': "#03c9a1", 'text-align': 'center'},
                     ),
                     dcc.Dropdown(id="map_select",
-                        options=optionsToSet,
-                        multi=False,
-                        value='generateAgeMap0',
-                        style={"backgroundColor": '#0e131a','width':'75%','color': "#03c9a1", 'margin': 'auto'},
-                    ),
+                                 options=optionsToSet,
+                                 multi=False,
+                                 value='generateAgeMap0',
+                                 style={"backgroundColor": '#0e131a', 'width': '75%',
+                                        'color': "#03c9a1", 'margin': 'auto'},
+                                 ),
                     html.Br(),
                     dcc.Graph(
                         id="map",
@@ -104,9 +106,9 @@ def init_layout(dash_app):
 
             html.Div(
                 id="cluster-container",
-                style= {
-                    'color' : '#1f2630',
-                    'width':'50%',
+                style={
+                    'color': '#1f2630',
+                    'width': '50%',
                     'height': 'auto',
                     'display': 'block',
                     'float': 'right'
@@ -115,16 +117,17 @@ def init_layout(dash_app):
                     html.P(
                         id="cluster-label",
                         children="Select Data on Right and Choose Graph Style Below",
-                        style = {'color': "#03c9a1", 'text-align': 'center'}
+                        style={'color': "#03c9a1", 'text-align': 'center'}
                     ),
                     dcc.Dropdown(
                         id="graph-select",
                         options=[
-                            {"label": "Line Graph", "value" : "line"},
-                            {"label" : "Stacked Bar Chart", "value": "cluster"}],
+                            {"label": "Line Graph", "value": "line"},
+                            {"label": "Stacked Bar Chart", "value": "cluster"}],
                         multi=False,
-                        value = "line",
-                        style={"backgroundColor": '#0e131a','width':'75%','color': "#03c9a1", 'margin': 'auto'},
+                        value="line",
+                        style={"backgroundColor": '#0e131a', 'width': '75%',
+                               'color': "#03c9a1", 'margin': 'auto'},
                     ),
                     html.Br(),
                     dcc.Graph(
@@ -135,22 +138,19 @@ def init_layout(dash_app):
             ),
         ],
     )
-#========================================================================================================================
+# ========================================================================================================================
 # END - Layout Functions
-#========================================================================================================================
+# ========================================================================================================================
 
 
-
-
-
-#========================================================================================================================
+# ========================================================================================================================
 # BEGIN - Callback Functions
-#========================================================================================================================
+# ========================================================================================================================
 def init_callbacks(dash_app):
 
     @dash_app.callback(
         Output('map', 'figure'),
-        [Input(component_id='map_select',component_property='value')],
+        [Input(component_id='map_select', component_property='value')],
         [State('map', 'figure')]
     )
     def update_Graph(selected, figure):
@@ -166,8 +166,8 @@ def init_callbacks(dash_app):
 
     @dash_app.callback(
         Output('cluster-graph', 'figure'),
-        [Input(component_id='map',component_property='selectedData'),
-        Input("graph-select", "value")],
+        [Input(component_id='map', component_property='selectedData'),
+         Input("graph-select", "value")],
         [State('cluster-graph', 'figure')]
     )
     def displaySelectedData(selectedData, selectedGraph, figure):
@@ -191,14 +191,14 @@ def init_callbacks(dash_app):
         print(z)
         if selectedGraph == 'line':
             return dict(
-                    data=[dict(x=name, y=z)],
-                    layout=dict(
-                        title="Voter Rates of Selected States",
-                        paper_bgcolor="#0e131a",
-                        plot_bgcolor="#0e131a",
-                        font=dict(color="#03c9a1"),
-                    ),
-                )
+                data=[dict(x=name, y=z)],
+                layout=dict(
+                    title="Voter Rates of Selected States",
+                    paper_bgcolor="#0e131a",
+                    plot_bgcolor="#0e131a",
+                    font=dict(color="#03c9a1"),
+                ),
+            )
         elif selectedGraph == 'cluster':
             categorySelected = ""
             with current_app.app_context():
@@ -210,7 +210,7 @@ def init_callbacks(dash_app):
                 return getClusterEduFigure(name)
             else:
                 pass
-            
+
 
 def getClusterAgeFigure(name):
     age1, age2, age3, age4 = db.getAllAgeRates(name)
@@ -222,9 +222,9 @@ def getClusterAgeFigure(name):
     data['65+'] = age4
     df = pd.DataFrame(data)
     print(df)
-    fig = px.bar(df, x = 'State', 
-                y = ['19-29', '30-44', '45-64', '65+'], 
-                title="Stacked Bar Chart Voter Rates of Selected States",)
+    fig = px.bar(df, x='State',
+                 y=['19-29', '30-44', '45-64', '65+'],
+                 title="Stacked Bar Chart Voter Rates of Selected States",)
     fig.update_layout(
         paper_bgcolor="#0e131a",
         plot_bgcolor="#0e131a",
@@ -232,66 +232,92 @@ def getClusterAgeFigure(name):
     )
     return fig
 
+
 def getClusterEduFigure(name):
-    # Everett, take charge
-    return None
+    edu1, edu2, edu3, edu4, edu5, edu6, edu7, edu8, edu9 = db.getAllEducation(
+        name)
+    data = {}
+    data['State'] = name
+    data['<9th Grade'] = edu1
+    data['9th-12th'] = edu2
+    data['High School Graduate'] = edu3
+    data['Current College Student'] = edu4
+    data['Associate`s Degree'] = edu5
+    data['Bachelor`s Degree'] = edu6
+    data['Graduate Degree'] = edu7
+    data[">High School"] = edu8
+    data['>Bachelor`s Degree'] = edu9
+    df = pd.DataFrame(data)
+    print(df)
+    fig = px.bar(df, x='State',
+                 y=['<9th Grade', '9th-12th', 'High School Graduate', 'Current College Student', 'Associate`s Degree',
+                     'Bachelor`s Degree', 'Graduate Degree', ">High School", '>Bachelor`s Degree'],
+                 title="Stacked Bar Chart Voter Rates of Selected States",)
+    fig.update_layout(
+        paper_bgcolor="#0e131a",
+        plot_bgcolor="#0e131a",
+        font=dict(color="#03c9a1"),
+    )
+    return fig
+
 
 def generateAgeMap(index):
-        records = db.fetchAge()
-        names = [0] * 51
-        rates = [0] * 51
-        codes = [0] * 51
-        i = 0
-        for row in records:
-            codes[i] = row[0]
-            names[i] = row[1]
-            rates[i] = row[index+3]/row[2]
-            i += 1
-        fig = go.Figure(data=go.Choropleth(
-            locations = codes,
-            z = rates,
-            locationmode = 'USA-states',
-            colorscale = px.colors.sequential.Viridis,
-            colorbar_title = "Voting Percentage",
-        ))
-        fig.update_layout(
-            title_text = ageLabels[index][1],
-            geo_scope = 'usa',
-            geo_bgcolor = "#0e131a",
-            paper_bgcolor = "#0e131a",
-            font_color='#03c9a1',
-            autosize = True
-        )
-        #fig.show()
-        return fig
+    records = db.fetchAge()
+    names = [0] * 51
+    rates = [0] * 51
+    codes = [0] * 51
+    i = 0
+    for row in records:
+        codes[i] = row[0]
+        names[i] = row[1]
+        rates[i] = row[index+3]/row[2]
+        i += 1
+    fig = go.Figure(data=go.Choropleth(
+        locations=codes,
+        z=rates,
+        locationmode='USA-states',
+        colorscale=px.colors.sequential.Viridis,
+        colorbar_title="Voting Percentage",
+    ))
+    fig.update_layout(
+        title_text=ageLabels[index][1],
+        geo_scope='usa',
+        geo_bgcolor="#0e131a",
+        paper_bgcolor="#0e131a",
+        font_color='#03c9a1',
+        autosize=True
+    )
+    # fig.show()
+    return fig
+
 
 def generateEduMap(index):
-        records = db.fetchEducation()
-        names = [0] * 51
-        rates = [0] * 51
-        codes = [0] * 51
-        i = 0
-        for row in records:
-            codes[i] = row[0]
-            names[i] = row[1]
-            rates[i] = row[index+3]/row[2]
-            i += 1
-        fig = go.Figure(data=go.Choropleth(
-            locations = codes,
-            z = rates,
-            locationmode = 'USA-states',
-            colorscale = 'Reds',
-            colorbar_title = "Voting Percentage",))
-        fig.update_layout(
-            title_text = eduLabels[index][1],
-            geo_scope = 'usa',
-            geo_bgcolor = "#0e131a",
-            paper_bgcolor = "#0e131a",
-            font_color='#03c9a1',
-            autosize = True
-        )
-        #fig.show()
-        return fig
-#========================================================================================================================
+    records = db.fetchEducation()
+    names = [0] * 51
+    rates = [0] * 51
+    codes = [0] * 51
+    i = 0
+    for row in records:
+        codes[i] = row[0]
+        names[i] = row[1]
+        rates[i] = row[index+3]/row[2]
+        i += 1
+    fig = go.Figure(data=go.Choropleth(
+        locations=codes,
+        z=rates,
+        locationmode='USA-states',
+        colorscale='Reds',
+        colorbar_title="Voting Percentage",))
+    fig.update_layout(
+        title_text=eduLabels[index][1],
+        geo_scope='usa',
+        geo_bgcolor="#0e131a",
+        paper_bgcolor="#0e131a",
+        font_color='#03c9a1',
+        autosize=True
+    )
+    # fig.show()
+    return fig
+# ========================================================================================================================
 # END - Callback Functions
-#========================================================================================================================
+# ========================================================================================================================
