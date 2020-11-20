@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.subplots as sp
 import plotly.express as px
+from sklearn.manifold import TSNE
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -136,6 +137,41 @@ def init_layout(dash_app):
                     ),
                 ],
             ),
+
+            html.Div(
+                id="3d-container",
+                style={
+                    'color': '#1f2630',
+                    'width': '50%',
+                    'height': 'auto',
+                    'display': 'block',
+                    'margin-right': 'auto'
+                },
+                children=[
+                    html.P(
+                        id="3d-label",
+                        children="Select A Year to View",
+                        style={'color': "#03c9a1", 'text-align': 'center',
+                               'margin-left': 'auto', 'margin-right': 'auto'}
+                    ),
+                    dcc.Dropdown(
+                        id="3d-select",
+                        options=[
+                            {"label": "2008", "value": "2008"},
+                            {"label": "2012", "value": "2012"},
+                            {"label": "2016", "value": "2016"}],
+                        multi=False,
+                        value="2008",
+                        style={"backgroundColor": '#0e131a', 'width': '75%',
+                               'color': "#03c9a1", 'margin': 'auto'},
+                    ),
+                    html.Br(),
+                    dcc.Graph(
+                        id="3d-graph",
+                        figure={}
+                    ),
+                ],
+            ),
         ],
     )
 # ========================================================================================================================
@@ -147,6 +183,45 @@ def init_layout(dash_app):
 # BEGIN - Callback Functions
 # ========================================================================================================================
 def init_callbacks(dash_app):
+
+    @dash_app.callback(
+        Output('3d-graph', 'figure'),
+        [Input('3d-select', 'value')],
+
+    )
+    def generate3DGraph(value):
+        df = pd.read_csv(url)
+        if (value == "2008"):
+            totalVotes = df["total_2008"].to_numpy()
+            demVotes = df["dem_2008"].to_numpy()
+            repVotes = df["gop_2008"].to_numpy()
+        elif (value == "2012"):
+            totalVotes = df["total_2012"].to_numpy()
+            demVotes = df["dem_2012"].to_numpy()
+            repVotes = df["gop_2012"].to_numpy()
+        elif (value == "2016"):
+            totalVotes = df["total_2016"].to_numpy()
+            demVotes = df["dem_2016"].to_numpy()
+            repVotes = df["gop_2016"].to_numpy()
+        demPercent = []
+        for i in range(len(demVotes)):
+            demPercent.append(demVotes[i]/totalVotes[i])
+        tsne = TSNE(n_components=3, random_state=0)
+        dic = {'Total_Votes': totalVotes,
+               'Democratic_Votes': demVotes, 'Republican_Votes': repVotes}
+        dataFrame = pd.DataFrame(data=dic)
+
+        fig = px.scatter_3d(
+            dataFrame, x="Total_Votes", y="Democratic_Votes", z="Republican_Votes"
+        )
+
+        fig.update_layout(
+            paper_bgcolor="#0e131a",
+            plot_bgcolor="#0e131a",
+            font=dict(color="#03c9a1"),
+        )
+
+        return fig
 
     @dash_app.callback(
         Output('map', 'figure'),

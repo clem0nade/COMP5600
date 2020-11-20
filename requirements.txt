@@ -5,3 +5,4 @@ dash==1.16.3
 pandas
 numpy
 pyodbc
+sklearn
