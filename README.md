@@ -5,17 +5,29 @@ Our project is hosted using auzre and the link to access the live product is bel
 http://comp5600.azurewebsites.net/
 
 - wsgi.py
+
 - [main]
-\_\_init\_\_.py\\
-routes.py\\
-[static]\\
-[templates]\\
-[dashboard]\\
-app.py\\
-db.py\\
-vars.py\\
-CensusData.db\\
-[assets]\\
+
+\_\_init\_\_.py
+
+routes.py
+
+[static]
+
+[templates]
+
+[dashboard]
+
+app.py
+
+db.py
+
+vars.py
+
+CensusData.db
+
+[assets]
+
 
 |DEFINITIONS|
 
